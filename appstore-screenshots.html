@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cabinet App Store Screenshots</title>
+<style>
+  :root {
+    --orange: #EA580C;
+    --orange-soft: #FB923C;
+    --ink: #1C1917;
+    --ink-2: #78716C;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Geist", -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+    background: #2E2B28;
+    padding: 40px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .howto {
+    max-width: 1440px; margin: 0 auto 28px;
+    background: #3A3734; border-radius: 12px; padding: 18px 22px;
+    color: #D6D3D1; font-size: 14px; line-height: 1.7;
+  }
+  .howto b { color: #fff; }
+  .howto code { background: #2E2B28; padding: 2px 7px; border-radius: 5px; font-size: 12.5px; }
+
+  /* ============ Stage: screenshot this at 100% on a Retina display = 2880x1800 ============ */
+  .stage {
+    width: 1440px; height: 900px;
+    margin: 0 auto 48px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Backgrounds */
+  .bg-warm {
+    background:
+      radial-gradient(1200px 700px at 15% -10%, rgba(251, 146, 60, 0.22), transparent 60%),
+      radial-gradient(1000px 600px at 95% 110%, rgba(234, 88, 12, 0.16), transparent 55%),
+      linear-gradient(170deg, #FDF8F3 0%, #F7F1EA 55%, #F3EBE2 100%);
+  }
+  .bg-orange {
+    background:
+      radial-gradient(1100px 650px at 80% -20%, rgba(255, 255, 255, 0.14), transparent 60%),
+      linear-gradient(160deg, #F97316 0%, #EA580C 55%, #C2410C 100%);
+  }
+  .bg-stone {
+    background:
+      radial-gradient(1000px 600px at 20% 120%, rgba(234, 88, 12, 0.14), transparent 55%),
+      linear-gradient(165deg, #FAFAF9 0%, #F0EEEB 100%);
+  }
+
+  .headline-zone { text-align: center; padding-top: 72px; }
+
+  .brand-row {
+    display: inline-flex; align-items: center; gap: 10px;
+    margin-bottom: 22px;
+  }
+  .brand-mark { display: flex; flex-direction: column; gap: 3px; }
+  .brand-mark i {
+    display: block; width: 24px; height: 10px; border-radius: 4px;
+    background: var(--orange); position: relative;
+  }
+  .bg-orange .brand-mark i { background: #fff; }
+  .brand-mark i::after {
+    content: ""; position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px; height: 2.5px; border-radius: 2px; background: #fff;
+  }
+  .bg-orange .brand-mark i::after { background: var(--orange); }
+  .brand-row b { font-size: 19px; letter-spacing: -0.01em; color: var(--ink); }
+  .bg-orange .brand-row b { color: #fff; }
+
+  h1 {
+    font-size: 54px; font-weight: 700; letter-spacing: -0.025em;
+    color: var(--ink); line-height: 1.12;
+  }
+  .bg-orange h1 { color: #fff; }
+  h1 .accent { color: var(--orange); }
+  .bg-orange h1 .accent { color: #FFD7BC; }
+
+  .sub {
+    margin-top: 14px;
+    font-size: 20px; color: var(--ink-2); font-weight: 450;
+  }
+  .bg-orange .sub { color: rgba(255, 255, 255, 0.82); }
+
+  /* Window frame holding the real screenshot */
+  .window {
+    margin-top: 44px;
+    width: 1120px;
+    border-radius: 14px 14px 0 0;
+    background: #F5F3F0;
+    box-shadow:
+      0 0 0 1px rgba(0, 0, 0, 0.10),
+      0 30px 80px rgba(28, 25, 23, 0.35);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .titlebar {
+    height: 40px;
+    background: linear-gradient(180deg, #FBFAF8, #F0EDEA);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+    display: flex; align-items: center; padding: 0 16px; gap: 8px;
+  }
+  .titlebar span { width: 12px; height: 12px; border-radius: 50%; }
+  .titlebar .r { background: #FF5F57; } .titlebar .y { background: #FEBC2E; } .titlebar .g { background: #28C840; }
+
+  .shot {
+    width: 100%; aspect-ratio: 16 / 9.4;
+    background: #FBFAF9;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+  .shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+  .shot .hint {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+    color: #A8A29E; font-size: 16px;
+    border: 2px dashed #E7E0D8; border-radius: 8px; margin: 14px;
+    transition: background .15s, border-color .15s;
+  }
+  .shot.dragover .hint { background: rgba(234, 88, 12, 0.05); border-color: var(--orange-soft); }
+  .shot.filled .hint { display: none; }
+  .shot .hint svg { width: 34px; height: 34px; stroke: #C9C1B8; }
+
+  @media print { .howto { display: none; } }
+</style>
+</head>
+<body>
+
+<div class="howto">
+  <b>How to produce App Store screenshots (2880 x 1800):</b><br>
+  1. Run Cabinet and take clean window screenshots: <code>⇧⌘4</code> then <code>Space</code> then click the window (hold <code>⌥</code> while clicking to skip the shadow).<br>
+  2. Click or drag each screenshot into a slot below.<br>
+  3. Edit any headline by clicking the text (everything is editable inline).<br>
+  4. Capture each stage: <code>⇧⌘4</code> and drag exactly over the colored 1440 x 900 stage. On a Retina display that produces a 2880 x 1800 file, which is exactly what App Store Connect wants for Mac.
+</div>
+
+<!-- Slide 1: Hero -->
+<section class="stage bg-warm">
+  <div class="headline-zone" contenteditable="true">
+    <div class="brand-row" contenteditable="false">
+      <div class="brand-mark"><i></i><i></i></div><b>Cabinet</b>
+    </div>
+    <h1>Every important document.<br><span class="accent">Filed, tracked, ready.</span></h1>
+    <div class="sub">The macOS home for visas, applications, and life admin.</div>
+  </div>
+  <div class="window">
+    <div class="titlebar"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+    <div class="shot" data-slot>
+      <img alt="">
+      <div class="hint">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M12 16V4m0 0 4 4m-4-4-4 4"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+        Drop your Dashboard screenshot here
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 2: Checklists -->
+<section class="stage bg-orange">
+  <div class="headline-zone" contenteditable="true">
+    <div class="brand-row" contenteditable="false">
+      <div class="brand-mark"><i></i><i></i></div><b>Cabinet</b>
+    </div>
+    <h1>Know exactly<br>what is still missing.</h1>
+    <div class="sub">Turn any goal into a document checklist. Watch it fill as you collect.</div>
+  </div>
+  <div class="window">
+    <div class="titlebar"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+    <div class="shot" data-slot>
+      <img alt="">
+      <div class="hint">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M12 16V4m0 0 4 4m-4-4-4 4"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+        Drop a process detail screenshot here, checklist half filled
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 3: Link once -->
+<section class="stage bg-stone">
+  <div class="headline-zone" contenteditable="true">
+    <div class="brand-row" contenteditable="false">
+      <div class="brand-mark"><i></i><i></i></div><b>Cabinet</b>
+    </div>
+    <h1>One passport. Three applications.<br><span class="accent">Zero copies.</span></h1>
+    <div class="sub">Link one document to every process that needs it. Cabinet warns you before deleting anything still in use.</div>
+  </div>
+  <div class="window">
+    <div class="titlebar"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+    <div class="shot" data-slot>
+      <img alt="">
+      <div class="hint">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M12 16V4m0 0 4 4m-4-4-4 4"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+        Drop the Link to Process sheet screenshot here
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 4: Expiry -->
+<section class="stage bg-warm">
+  <div class="headline-zone" contenteditable="true">
+    <div class="brand-row" contenteditable="false">
+      <div class="brand-mark"><i></i><i></i></div><b>Cabinet</b>
+    </div>
+    <h1>Expiry dates never<br><span class="accent">sneak up on you again.</span></h1>
+    <div class="sub">Smart reminders for passports, certificates, and anything that runs out.</div>
+  </div>
+  <div class="window">
+    <div class="titlebar"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+    <div class="shot" data-slot>
+      <img alt="">
+      <div class="hint">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M12 16V4m0 0 4 4m-4-4-4 4"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+        Drop a screenshot with the Needs attention section here
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Slide 5: Privacy and price -->
+<section class="stage bg-orange">
+  <div class="headline-zone" contenteditable="true">
+    <div class="brand-row" contenteditable="false">
+      <div class="brand-mark"><i></i><i></i></div><b>Cabinet</b>
+    </div>
+    <h1>Private by design.<br>Yours forever.</h1>
+    <div class="sub">Everything stays on your Mac. No cloud, no account, no subscription. Pay once, own it.</div>
+  </div>
+  <div class="window">
+    <div class="titlebar"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+    <div class="shot" data-slot>
+      <img alt="">
+      <div class="hint">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M12 16V4m0 0 4 4m-4-4-4 4"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+        Drop your Library screenshot here
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll("[data-slot]").forEach(slot => {
+    const img = slot.querySelector("img");
+
+    function load(file) {
+      if (!file || !file.type.startsWith("image/")) return;
+      const reader = new FileReader();
+      reader.onload = e => { img.src = e.target.result; slot.classList.add("filled"); };
+      reader.readAsDataURL(file);
+    }
+
+    slot.addEventListener("click", () => {
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = "image/*";
+      input.onchange = () => load(input.files[0]);
+      input.click();
+    });
+    slot.addEventListener("dragover", e => { e.preventDefault(); slot.classList.add("dragover"); });
+    slot.addEventListener("dragleave", () => slot.classList.remove("dragover"));
+    slot.addEventListener("drop", e => {
+      e.preventDefault();
+      slot.classList.remove("dragover");
+      load(e.dataTransfer.files[0]);
+    });
+  });
+</script>
+</body>
+</html>

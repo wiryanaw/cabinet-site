@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cabinet App Store Final</title>
+<style>
+  @font-face { font-family:"Geist"; src:url("fonts/Geist-Regular.ttf"); font-weight:400; }
+  @font-face { font-family:"Geist"; src:url("fonts/Geist-Medium.ttf"); font-weight:500; }
+  @font-face { font-family:"Geist"; src:url("fonts/Geist-SemiBold.ttf"); font-weight:600; }
+  @font-face { font-family:"Geist"; src:url("fonts/Geist-Bold.ttf"); font-weight:700; }
+
+  :root {
+    --or:#EA580C; --or2:#FB923C; --ink:#1C1917; --sec:#78716C; --ter:#A8A29E; --line:#E7E5E4;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"Geist",-apple-system,sans-serif; -webkit-font-smoothing:antialiased; background:#2E2B28; }
+
+  .stage { width:1440px; height:900px; position:relative; overflow:hidden;
+    display:none; flex-direction:column; align-items:center; }
+  .stage.on { display:flex; }
+
+  .bg-warm { background:
+    radial-gradient(1200px 700px at 15% -10%, rgba(251,146,60,.22), transparent 60%),
+    radial-gradient(1000px 600px at 95% 110%, rgba(234,88,12,.16), transparent 55%),
+    linear-gradient(170deg,#FDF8F3 0%,#F7F1EA 55%,#F3EBE2 100%); }
+  .bg-orange { background:
+    radial-gradient(1100px 650px at 80% -20%, rgba(255,255,255,.14), transparent 60%),
+    linear-gradient(160deg,#F97316 0%,#EA580C 55%,#C2410C 100%); }
+  .bg-stone { background:
+    radial-gradient(1000px 600px at 20% 120%, rgba(234,88,12,.14), transparent 55%),
+    linear-gradient(165deg,#FAFAF9 0%,#F0EEEB 100%); }
+
+  .hz { text-align:center; padding-top:64px; }
+  .brand { display:inline-flex; align-items:center; gap:10px; margin-bottom:20px; }
+  .bmark { display:flex; flex-direction:column; gap:3px; }
+  .bmark i { display:block; width:24px; height:10px; border-radius:4px; background:var(--or); position:relative; }
+  .bg-orange .bmark i { background:#fff; }
+  .bmark i::after { content:""; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:8px; height:2.5px; border-radius:2px; background:#fff; }
+  .bg-orange .bmark i::after { background:var(--or); }
+  .brand b { font-size:19px; color:var(--ink); }
+  .bg-orange .brand b { color:#fff; }
+  h1 { font-size:52px; font-weight:700; letter-spacing:-.025em; color:var(--ink); line-height:1.12; }
+  .bg-orange h1 { color:#fff; }
+  h1 .ac { color:var(--or); }
+  .bg-orange h1 .ac { color:#FFD7BC; }
+  .sub { margin-top:13px; font-size:19px; color:var(--sec); }
+  .bg-orange .sub { color:rgba(255,255,255,.85); }
+
+  /* ===== App window ===== */
+  .win { margin-top:40px; width:1120px; border-radius:14px 14px 0 0; background:#fff;
+    box-shadow:0 0 0 1px rgba(0,0,0,.10), 0 30px 80px rgba(28,25,23,.35); overflow:hidden; flex-shrink:0; }
+  .tbar { height:38px; background:linear-gradient(180deg,#FBFAF8,#F0EDEA); border-bottom:1px solid rgba(0,0,0,.07);
+    display:flex; align-items:center; padding:0 16px; gap:8px; }
+  .tbar span { width:12px; height:12px; border-radius:50%; }
+  .tbar .r{background:#FF5F57}.tbar .y{background:#FEBC2E}.tbar .g{background:#28C840}
+  .app { display:flex; height:660px; background:#fff; font-size:13px; color:var(--ink); }
+
+  /* ===== Sidebar ===== */
+  .sb { width:236px; flex-shrink:0; background:#FBFAF9; border-right:1px solid var(--line);
+    padding:14px 10px 10px; display:flex; flex-direction:column; gap:8px; }
+  .sb-brand { display:flex; align-items:center; gap:9px; padding:0 6px 2px; font-weight:600; font-size:14px; }
+  .sb-brand .bmark i { width:20px; height:8px; background:var(--or) !important; }
+  .sb-brand .bmark i::after { background:#fff !important; }
+  .search { display:flex; align-items:center; gap:7px; padding:7px 9px; background:#fff;
+    border:1px solid #DDD9D5; border-radius:8px; color:var(--ter); font-size:12.5px; }
+  .search kbd { margin-left:auto; background:rgba(0,0,0,.06); border-radius:4px; padding:1px 5px;
+    font-family:inherit; font-size:10.5px; color:var(--sec); font-weight:600; }
+  .addbtn { display:flex; align-items:center; gap:7px; padding:9px 11px; border-radius:9px; color:#fff;
+    font-weight:600; font-size:12.5px; background:linear-gradient(180deg,#F47535,#D44D08);
+    box-shadow:0 3px 6px rgba(234,88,12,.35), inset 0 1px 0 rgba(255,255,255,.25); }
+  .addbtn kbd { margin-left:auto; opacity:.6; font-family:inherit; font-size:10.5px; }
+  .nav { display:flex; flex-direction:column; gap:2px; padding:6px 0; }
+  .nrow { display:flex; align-items:center; gap:9px; padding:7px 10px; border-radius:6px;
+    color:var(--ink); font-size:12.5px; position:relative; }
+  .nrow .ic { width:15px; color:var(--sec); text-align:center; }
+  .nrow .ct { margin-left:auto; color:var(--sec); font-size:11px; }
+  .nrow.act { background:rgba(234,88,12,.09); color:var(--or); font-weight:500; }
+  .nrow.act .ic { color:var(--or); }
+  .nrow.act::before { content:""; position:absolute; left:0; top:7px; bottom:7px; width:3px;
+    border-radius:2px; background:var(--or); }
+  .slabel { display:flex; justify-content:space-between; padding:8px 10px 3px;
+    font-size:9.5px; font-weight:600; letter-spacing:.06em; color:var(--ter); }
+  .slabel a { color:var(--or); font-weight:500; font-size:11px; letter-spacing:0; text-decoration:none; }
+  .prow { display:flex; align-items:center; gap:9px; padding:7px 10px; border-radius:6px; font-size:12.5px; position:relative; }
+  .prow .ct { margin-left:auto; color:var(--sec); font-size:10.5px; font-variant-numeric:tabular-nums; }
+  .prow.act { background:rgba(234,88,12,.09); color:var(--or); font-weight:500; }
+  .prow.act::before { content:""; position:absolute; left:0; top:7px; bottom:7px; width:3px; border-radius:2px; background:var(--or); }
+  .ring { width:13px; height:13px; border-radius:50%; flex-shrink:0;
+    background:conic-gradient(var(--or) calc(var(--p)*1%), #D6D3D1 0); position:relative; }
+  .ring::after { content:""; position:absolute; inset:2.5px; border-radius:50%; background:#FBFAF9; }
+  .prow.act .ring::after { background:#FCEDE3; }
+  .sb .grow { flex:1; }
+  .storage { background:#fff; border:1px solid var(--line); border-radius:8px; padding:9px 10px; }
+  .storage .row { display:flex; justify-content:space-between; font-size:10.5px; color:var(--sec); margin-bottom:6px; }
+  .storage .bar { height:3px; border-radius:2px; background:rgba(0,0,0,.08); overflow:hidden; }
+  .storage .bar i { display:block; height:100%; width:64%; background:var(--or); border-radius:2px; }
+  .profile { display:flex; align-items:center; gap:9px; padding:7px 6px 2px; }
+  .avatar { width:28px; height:28px; border-radius:50%; background:rgba(234,88,12,.12);
+    color:var(--or); font-weight:600; font-size:12px; display:flex; align-items:center; justify-content:center; }
+  .profile .who { font-size:12.5px; font-weight:500; display:flex; align-items:center; gap:5px; }
+  .profile .sub2 { font-size:9.5px; color:var(--sec); }
+  .fbadge { font-size:8.5px; font-weight:700; color:#fff; background:var(--or); border-radius:4px; padding:1.5px 5px; }
+
+  /* ===== Main ===== */
+  .main { flex:1; display:flex; flex-direction:column; min-width:0; }
+  .mtop { display:flex; align-items:center; justify-content:space-between;
+    padding:13px 22px; border-bottom:1px solid var(--line); }
+  .mtop b { font-size:14px; font-weight:600; }
+  .mtop .date { font-size:12px; color:var(--sec); }
+  .mbody { padding:16px 22px; overflow:hidden; flex:1; }
+  .shead { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
+  .shead b { font-size:12.5px; font-weight:600; }
+  .btn-o { padding:7px 13px; border-radius:8px; color:#fff; font-weight:600; font-size:11.5px;
+    background:linear-gradient(180deg,#F47535,#D44D08); box-shadow:0 3px 6px rgba(234,88,12,.3); }
+
+  /* Drawer cards */
+  .dcards { display:flex; gap:12px; margin-bottom:16px; }
+  .dcard { width:160px; position:relative; padding-top:40px; }
+  .cavity { position:absolute; top:0; left:12px; right:12px; height:52px;
+    border-radius:9px 9px 0 0; border:1px solid rgba(234,88,12,.15); border-bottom:none;
+    background:linear-gradient(180deg, rgba(234,88,12,.05), rgba(234,88,12,.16)); }
+  .papers { position:absolute; top:6px; left:0; right:0; display:flex; justify-content:center; z-index:1; }
+  .sheet { width:30px; height:40px; background:#fff; border:1px solid rgba(0,0,0,.07); border-radius:5px;
+    box-shadow:0 1px 3px rgba(0,0,0,.06); padding:5px; margin:0 -5px; }
+  .sheet i { display:block; height:2.5px; border-radius:1px; background:rgba(0,0,0,.13); margin-bottom:4px; }
+  .sheet i:first-child { width:70%; background:rgba(0,0,0,.2); } .sheet i:nth-child(2){width:90%} .sheet i:nth-child(3){width:55%}
+  .sheet.l { transform:rotate(-7deg) translateY(4px); } .sheet.r { transform:rotate(7deg) translateY(4px); }
+  .panel { position:relative; z-index:2; background:linear-gradient(180deg,#FCEEE4,#FDF9F5);
+    border:1px solid rgba(234,88,12,.15); border-radius:11px; padding:9px 11px 11px; }
+  .handle { width:26px; height:4px; border-radius:2px; background:rgba(234,88,12,.65); margin:0 auto 9px; }
+  .panel .emo { font-size:13px; }
+  .panel .nm { font-weight:600; font-size:12px; margin-top:3px; }
+  .panel .ds { font-size:10px; color:var(--sec); margin-top:1px; height:13px; }
+  .pips { display:flex; align-items:center; gap:3px; margin-top:9px; height:13px; }
+  .pips i { flex:1; height:3px; border-radius:2px; background:rgba(0,0,0,.10); }
+  .pips i.f { background:var(--or); }
+  .pips .cnt { font-size:9px; color:var(--sec); font-weight:500; margin-left:3px; }
+  .pips .due { font-size:9px; color:var(--sec); font-weight:500; margin-left:auto; }
+  .donechip { position:absolute; top:46px; right:7px; z-index:3; background:#16A34A; color:#fff;
+    font-size:8.5px; font-weight:600; border-radius:99px; padding:2.5px 7px; }
+
+  .hr { height:1px; background:var(--line); margin:2px 0 14px; }
+  .cols { display:flex; gap:20px; }
+  .cols .c1 { flex:1.5; } .cols .c2 { flex:1; }
+  .card { background:#fff; border:1px solid rgba(0,0,0,.07); border-radius:8px; overflow:hidden; }
+  .arow { display:flex; align-items:center; gap:9px; padding:8px 11px; border-bottom:1px solid rgba(0,0,0,.05); font-size:11.5px; }
+  .arow:last-child { border-bottom:none; }
+  .achip { width:24px; height:24px; border-radius:7px; border:1px solid rgba(0,0,0,.09);
+    display:flex; align-items:center; justify-content:center; font-size:11px; color:var(--sec); flex-shrink:0; }
+  .arow b { font-weight:500; } .arow .what { color:var(--sec); } .arow .when { margin-left:auto; color:var(--ter); font-size:10.5px; }
+  .strow { display:flex; justify-content:space-between; padding:9px 12px; border-bottom:1px solid rgba(0,0,0,.05); font-size:11.5px; }
+  .strow:last-child { border-bottom:none; }
+  .strow span { color:var(--sec); } .strow b { font-weight:600; }
+
+  /* Needs attention */
+  .attn { border-radius:8px; padding:10px 12px; display:flex; align-items:center; gap:10px; margin-bottom:8px; font-size:12px; }
+  .attn.red { background:rgba(220,38,38,.06); border:1px solid rgba(220,38,38,.18); }
+  .attn.org { background:rgba(234,88,12,.06); border:1px solid rgba(234,88,12,.2); }
+  .attn .dot { width:8px; height:8px; border-radius:50%; }
+  .attn.red .dot { background:#DC2626; } .attn.org .dot { background:var(--or); }
+  .attn b { font-weight:500; }
+  .attn .st { color:var(--sec); }
+  .attn.red .st b2 { color:#DC2626; font-weight:600; } .attn.org .st b2 { color:var(--or); font-weight:600; }
+  .attn .upd { margin-left:auto; font-size:11px; font-weight:600; color:var(--or);
+    border:1.5px solid rgba(234,88,12,.5); background:rgba(234,88,12,.05); border-radius:7px; padding:4px 11px; }
+
+  /* Process detail */
+  .pdhead { display:flex; align-items:center; gap:13px; padding:16px 22px; border-bottom:1px solid var(--line); }
+  .pfold { width:46px; height:46px; border-radius:11px; background:rgba(234,88,12,.1);
+    display:flex; align-items:center; justify-content:center; font-size:22px; }
+  .pdhead h2 { font-size:17px; font-weight:600; }
+  .pdmeta { display:flex; align-items:center; gap:7px; margin-top:4px; font-size:11px; color:var(--sec); }
+  .pbar { width:80px; height:4px; border-radius:2px; background:rgba(0,0,0,.08); overflow:hidden; }
+  .pbar i { display:block; height:100%; width:67%; background:var(--or); }
+  .pd-actions { margin-left:auto; display:flex; gap:7px; }
+  .ghostbtn { padding:6px 10px; border-radius:7px; border:1px solid rgba(0,0,0,.09);
+    background:#fff; color:var(--sec); font-size:11px; font-weight:500; }
+  .slot { display:flex; align-items:center; gap:11px; padding:12px 22px; border-bottom:1px solid rgba(0,0,0,.05); }
+  .scheck { width:22px; height:22px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+  .scheck.done { background:rgba(234,88,12,.12); color:var(--or); font-size:11px; font-weight:700; }
+  .scheck.empty { border:1.5px dashed rgba(0,0,0,.2); }
+  .sthumb { width:32px; height:32px; border-radius:6px; background:linear-gradient(160deg,#FEF3EC,#FBE3D2);
+    border:1px solid rgba(0,0,0,.06); display:flex; align-items:center; justify-content:center; font-size:13px; }
+  .slot .snm { font-weight:500; font-size:12.5px; }
+  .slot .ssub { display:flex; gap:5px; align-items:center; font-size:10.5px; color:var(--sec); margin-top:2px; }
+  .tchip { font-size:9px; font-weight:600; background:rgba(0,0,0,.06); border-radius:4px; padding:1.5px 4px; }
+  .slot .view { margin-left:auto; color:var(--sec); font-size:11.5px; font-weight:500; }
+  .slot .upl { margin-left:auto; color:var(--or); font-size:11.5px; font-weight:600; }
+
+  .ppanel { width:230px; flex-shrink:0; border-left:1px solid var(--line); padding:14px 16px; }
+  .ppanel h4 { font-size:11.5px; font-weight:600; color:var(--sec); margin-bottom:12px; }
+  .ppanel .lbl { font-size:9.5px; font-weight:600; letter-spacing:.05em; color:var(--ter); margin:14px 0 7px; }
+  .ppanel .kv { display:flex; justify-content:space-between; font-size:11.5px; padding:3px 0; }
+  .ppanel .kv span { color:var(--sec); } .ppanel .kv b { font-weight:600; }
+  .miss { display:flex; align-items:center; gap:7px; font-size:11.5px; padding:4px 0; }
+  .miss .req { margin-left:auto; font-size:9.5px; color:var(--sec); }
+  .misscount { background:var(--or); color:#fff; border-radius:99px; font-size:9px; font-weight:700; padding:1px 6px; }
+
+  /* Link modal (slide 3) */
+  .backdrop { position:absolute; inset:0; background:rgba(28,25,23,.32); z-index:5; }
+  .modal { position:absolute; z-index:6; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:480px; background:#fff; border-radius:16px; box-shadow:0 30px 90px rgba(0,0,0,.35); overflow:hidden; }
+  .modal .mh { padding:18px 20px 12px; }
+  .modal .mh b { font-size:15px; font-weight:600; }
+  .modal .mh p { font-size:12px; color:var(--sec); margin-top:3px; }
+  .mgroup { padding:6px 20px 2px; font-size:12.5px; font-weight:600; display:flex; gap:7px; align-items:center; }
+  .mslot { margin:6px 20px; border-radius:10px; border:1px solid rgba(0,0,0,.08);
+    display:flex; align-items:center; gap:10px; padding:10px 12px; }
+  .mslot.linked { background:rgba(234,88,12,.06); border-color:rgba(234,88,12,.35); }
+  .mslot.sel { background:rgba(234,88,12,.04); border-color:rgba(234,88,12,.45); }
+  .cb { width:18px; height:18px; border-radius:5px; border:1.5px solid rgba(0,0,0,.2); flex-shrink:0; }
+  .cb.on { background:var(--or); border-color:var(--or); position:relative; }
+  .cb.on::after { content:"✓"; position:absolute; inset:0; color:#fff; font-size:11px; font-weight:700;
+    display:flex; align-items:center; justify-content:center; }
+  .mslot .mn { font-weight:500; font-size:12.5px; }
+  .mslot .mr { font-size:10px; color:var(--sec); margin-top:1px; }
+  .mslot .tag { margin-left:auto; font-size:10.5px; font-weight:600; color:var(--or); }
+  .mfoot { display:flex; align-items:center; padding:13px 20px; border-top:1px solid var(--line); margin-top:10px; }
+  .mfoot .note { font-size:11.5px; color:var(--sec); }
+  .mfoot .cancel { margin-left:auto; color:var(--or); font-weight:600; font-size:12.5px; margin-right:14px; }
+  .mfoot .go { padding:8px 16px; border-radius:9px; color:#fff; font-weight:600; font-size:12.5px;
+    background:linear-gradient(180deg,#F47535,#D44D08); box-shadow:0 3px 6px rgba(234,88,12,.3); }
+
+  /* Library grid (slide 5) */
+  .ltool { display:flex; align-items:center; gap:9px; padding:12px 22px; border-bottom:1px solid var(--line); }
+  .lsearch { flex:1; display:flex; align-items:center; gap:7px; padding:7px 10px; background:#fff;
+    border:1px solid rgba(0,0,0,.09); border-radius:7px; color:var(--ter); font-size:12px; }
+  .lgrid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; padding:16px 22px; }
+  .doc { background:#fff; border:1px solid rgba(0,0,0,.07); border-radius:10px; padding:10px; }
+  .dthumb { height:64px; border-radius:7px; display:flex; align-items:center; justify-content:center;
+    font-size:22px; margin-bottom:8px; }
+  .doc .dn { font-size:11.5px; font-weight:500; line-height:1.25; }
+  .doc .dt { display:inline-block; font-size:9px; font-weight:600; background:rgba(0,0,0,.06);
+    border-radius:4px; padding:2px 5px; margin-top:5px; color:var(--sec); }
+</style>
+</head>
+<body>
+
+<!-- ============ SHARED SIDEBAR TEMPLATE (JS clones it) ============ -->
+<template id="sbT">
+  <div class="sb">
+    <div class="sb-brand"><div class="bmark"><i></i><i></i></div>Cabinet</div>
+    <div class="search">⌕ Search <kbd>⌘F</kbd></div>
+    <div class="addbtn">+ Add document <kbd>⌘N</kbd></div>
+    <div class="nav">
+      <div class="nrow" data-n="dash"><span class="ic">▦</span>Dashboard</div>
+      <div class="nrow" data-n="lib"><span class="ic">▤</span>Library<span class="ct">12</span></div>
+      <div class="nrow" data-n="proc"><span class="ic">≋</span>Processes<span class="ct">3</span></div>
+    </div>
+    <div class="slabel">PROCESSES <a>Add</a></div>
+    <div class="prow" data-n="uk"><span class="ring" style="--p:67"></span>UK Visa Application<span class="ct">4/6</span></div>
+    <div class="prow" data-n="tud"><span class="ring" style="--p:40"></span>TU Delft Application<span class="ct">2/5</span></div>
+    <div class="prow" data-n="tax"><span class="ring" style="--p:100"></span>Tax Return 2025<span class="ct">3/3</span></div>
+    <div class="grow"></div>
+    <div class="storage">
+      <div class="row"><span>Local only</span><span>12 docs · 48 MB</span></div>
+      <div class="bar"><i></i></div>
+    </div>
+    <div class="profile">
+      <div class="avatar">S</div>
+      <div><div class="who">Sarah <span class="fbadge">Pro</span></div><div class="sub2">Local · on this Mac</div></div>
+    </div>
+  </div>
+</template>
+
+<!-- ============ SLIDE 1: HERO / DASHBOARD ============ -->
+<section class="stage bg-warm" id="s1">
+  <div class="hz">
+    <div class="brand"><div class="bmark"><i></i><i></i></div><b>Cabinet</b></div>
+    <h1>Every important document.<br><span class="ac">Filed, tracked, ready.</span></h1>
+    <div class="sub">The macOS home for visas, applications, and life admin.</div>
+  </div>
+  <div class="win"><div class="tbar"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+    <div class="app">
+      <div data-sb="dash"></div>
+      <div class="main">
+        <div class="mtop"><b>Dashboard</b><span class="date">Thursday, 2 July 2026</span></div>
+        <div class="mbody">
+          <div class="shead"><b>Processes</b><span class="btn-o">+ New process</span></div>
+          <div class="dcards">
+            <div class="dcard">
+              <div class="cavity"></div>
+              <div class="papers"><div class="sheet l"><i></i><i></i><i></i></div><div class="sheet"><i></i><i></i><i></i></div><div class="sheet r"><i></i><i></i><i></i></div></div>
+              <div class="panel"><div class="handle"></div><div class="emo">🇬🇧</div><div class="nm">UK Visa Application</div><div class="ds">Skilled worker visa</div>
+                <div class="pips"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i><span class="cnt">4/6</span><span class="due">Due 9 Sep</span></div></div>
+            </div>
+            <div class="dcard">
+              <div class="cavity"></div>
+              <div class="papers"><div class="sheet l"><i></i><i></i><i></i></div><div class="sheet"><i></i><i></i><i></i></div><div class="sheet r"><i></i><i></i><i></i></div></div>
+              <div class="panel"><div class="handle"></div><div class="emo">🎓</div><div class="nm">TU Delft Application</div><div class="ds">MSc 2027 intake</div>
+                <div class="pips"><i class="f"></i><i class="f"></i><i></i><i></i><i></i><span class="cnt">2/5</span><span class="due">Due 18 Sep</span></div></div>
+            </div>
+            <div class="dcard">
+              <div class="cavity"></div>
+              <div class="donechip">Done</div>
+              <div class="panel"><div class="handle"></div><div class="emo">🧾</div><div class="nm">Tax Return 2025</div><div class="ds">Filed in April</div>
+                <div class="pips"><i class="f"></i><i class="f"></i><i class="f"></i><span class="cnt">3/3</span></div></div>
+            </div>
+          </div>
+          <div class="hr"></div>
+          <div class="cols">
+            <div class="c1">
+              <div class="shead"><b>Recent activity</b></div>
+              <div class="card">
+                <div class="arow"><span class="achip">+</span><b>Sponsorship letter.pdf</b><span class="what">Added to library</span><span class="when">23 min ago</span></div>
+                <div class="arow"><span class="achip">∞</span><b>Passport.pdf</b><span class="what">Linked to TU Delft Application</span><span class="when">25 min ago</span></div>
+                <div class="arow"><span class="achip">+</span><b>IELTS result.pdf</b><span class="what">Added to library</span><span class="when">31 min ago</span></div>
+                <div class="arow"><span class="achip">∞</span><b>Bank statement Jun.pdf</b><span class="what">Linked to UK Visa Application</span><span class="when">1 hr ago</span></div>
+              </div>
+            </div>
+            <div class="c2">
+              <div class="shead"><b>Library</b></div>
+              <div class="card">
+                <div class="strow"><span>Documents</span><b>12</b></div>
+                <div class="strow"><span>Links across processes</span><b>5</b></div>
+                <div class="strow"><span>Documents with versions</span><b>3</b></div>
+                <div class="strow"><span>Storage used</span><b>48.2 MB</b></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 2: PROCESS DETAIL / CHECKLIST ============ -->
+<section class="stage bg-orange" id="s2">
+  <div class="hz">
+    <div class="brand"><div class="bmark"><i></i><i></i></div><b>Cabinet</b></div>
+    <h1>Know exactly<br>what is still missing.</h1>
+    <div class="sub">Turn any goal into a document checklist. Watch it fill as you collect.</div>
+  </div>
+  <div class="win"><div class="tbar"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+    <div class="app">
+      <div data-sb="uk"></div>
+      <div class="main">
+        <div class="pdhead">
+          <div class="pfold">🇬🇧</div>
+          <div>
+            <h2>UK Visa Application</h2>
+            <div class="pdmeta"><span class="pbar"><i></i></span> 4 of 6 documents · Due 9 Sep 2026</div>
+          </div>
+          <div class="pd-actions"><span class="ghostbtn">Export PDF</span><span class="ghostbtn">✎</span></div>
+        </div>
+        <div style="display:flex; flex:1; min-height:0;">
+          <div style="flex:1;">
+            <div class="slot"><span class="scheck done">✓</span><span class="sthumb">📄</span><div><div class="snm">Passport</div><div class="ssub"><span class="tchip">PDF</span>Passport.pdf</div></div><span class="view">View</span></div>
+            <div class="slot"><span class="scheck done">✓</span><span class="sthumb">📄</span><div><div class="snm">Bank statement</div><div class="ssub"><span class="tchip">PDF</span>Bank statement Jun.pdf</div></div><span class="view">View</span></div>
+            <div class="slot"><span class="scheck done">✓</span><span class="sthumb">📄</span><div><div class="snm">IELTS certificate</div><div class="ssub"><span class="tchip">PDF</span>IELTS result.pdf</div></div><span class="view">View</span></div>
+            <div class="slot"><span class="scheck done">✓</span><span class="sthumb">📄</span><div><div class="snm">Sponsorship letter</div><div class="ssub"><span class="tchip">PDF</span>Sponsorship letter.pdf</div></div><span class="view">View</span></div>
+            <div class="slot"><span class="scheck empty"></span><div><div class="snm">Tuberculosis test</div><div class="ssub">Required</div></div><span class="upl">+ Upload</span></div>
+            <div class="slot"><span class="scheck empty"></span><div><div class="snm">Photo 35x45</div><div class="ssub">Optional</div></div><span class="upl">+ Upload</span></div>
+          </div>
+          <div class="ppanel">
+            <h4>Process Details</h4>
+            <div class="lbl">PROCESS</div>
+            <div class="kv"><span>Created</span><b>2 Jun 2026</b></div>
+            <div class="kv"><span>Progress</span><b>4 of 6 · 67%</b></div>
+            <div class="kv"><span>Deadline</span><b>9 Sep 2026</b></div>
+            <div class="lbl">STILL MISSING <span class="misscount">2</span></div>
+            <div class="miss">⊕ Tuberculosis test <span class="req">Required</span></div>
+            <div class="miss">⊕ Photo 35x45 <span class="req">Optional</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 3: LINK ONCE ============ -->
+<section class="stage bg-stone" id="s3">
+  <div class="hz">
+    <div class="brand"><div class="bmark"><i></i><i></i></div><b>Cabinet</b></div>
+    <h1>One passport. Three applications.<br><span class="ac">Zero copies.</span></h1>
+    <div class="sub">Link one document to every process that needs it. Cabinet warns you before deleting anything still in use.</div>
+  </div>
+  <div class="win"><div class="tbar"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+    <div class="app" style="position:relative;">
+      <div data-sb="lib"></div>
+      <div class="main">
+        <div class="mtop"><b>Library</b><span class="date">12 documents</span></div>
+        <div class="mbody"></div>
+      </div>
+      <div class="backdrop"></div>
+      <div class="modal">
+        <div class="mh"><b>Link to Process</b><p>Select slots to attach "Passport.pdf"</p></div>
+        <div class="mgroup">🇬🇧 UK Visa Application</div>
+        <div class="mslot linked"><span class="cb on"></span><div><div class="mn">Passport</div><div class="mr">Required</div></div><span class="tag">Already linked</span></div>
+        <div class="mgroup">🎓 TU Delft Application</div>
+        <div class="mslot sel"><span class="cb on"></span><div><div class="mn">Passport</div><div class="mr">Required</div></div></div>
+        <div class="mgroup">🇳🇴 Work Permit Norway</div>
+        <div class="mslot sel"><span class="cb on"></span><div><div class="mn">Passport copy</div><div class="mr">Required</div></div></div>
+        <div class="mfoot"><span class="note">2 slots selected</span><span class="cancel">Cancel</span><span class="go">Link 2 slots</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 4: EXPIRY ============ -->
+<section class="stage bg-warm" id="s4">
+  <div class="hz">
+    <div class="brand"><div class="bmark"><i></i><i></i></div><b>Cabinet</b></div>
+    <h1>Expiry dates never<br><span class="ac">sneak up on you again.</span></h1>
+    <div class="sub">Smart reminders for passports, certificates, and anything that runs out.</div>
+  </div>
+  <div class="win"><div class="tbar"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+    <div class="app">
+      <div data-sb="dash"></div>
+      <div class="main">
+        <div class="mtop"><b>Dashboard</b><span class="date">Thursday, 2 July 2026</span></div>
+        <div class="mbody">
+          <div class="shead"><b style="letter-spacing:.05em; font-size:10.5px; color:var(--sec);">NEEDS ATTENTION</b></div>
+          <div class="attn red"><span class="dot"></span><b>Passport.pdf</b><span class="st"><b2>Expired 12 May 2026</b2> · used in 3 processes</span><span class="upd">Update document</span></div>
+          <div class="attn org"><span class="dot"></span><b>IELTS result.pdf</b><span class="st"><b2>Expires in 24 days</b2> · 28 Jul 2026</span><span class="upd">Update document</span></div>
+          <div class="hr" style="margin-top:14px;"></div>
+          <div class="shead"><b>Processes</b><span class="btn-o">+ New process</span></div>
+          <div class="dcards">
+            <div class="dcard">
+              <div class="cavity"></div>
+              <div class="papers"><div class="sheet l"><i></i><i></i><i></i></div><div class="sheet"><i></i><i></i><i></i></div><div class="sheet r"><i></i><i></i><i></i></div></div>
+              <div class="panel"><div class="handle"></div><div class="emo">🇬🇧</div><div class="nm">UK Visa Application</div><div class="ds">Skilled worker visa</div>
+                <div class="pips"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i><span class="cnt">4/6</span><span class="due">Due 9 Sep</span></div></div>
+            </div>
+            <div class="dcard">
+              <div class="cavity"></div>
+              <div class="papers"><div class="sheet l"><i></i><i></i><i></i></div><div class="sheet"><i></i><i></i><i></i></div><div class="sheet r"><i></i><i></i><i></i></div></div>
+              <div class="panel"><div class="handle"></div><div class="emo">🎓</div><div class="nm">TU Delft Application</div><div class="ds">MSc 2027 intake</div>
+                <div class="pips"><i class="f"></i><i class="f"></i><i></i><i></i><i></i><span class="cnt">2/5</span><span class="due">Due 18 Sep</span></div></div>
+            </div>
+            <div class="dcard">
+              <div class="cavity"></div>
+              <div class="donechip">Done</div>
+              <div class="panel"><div class="handle"></div><div class="emo">🧾</div><div class="nm">Tax Return 2025</div><div class="ds">Filed in April</div>
+                <div class="pips"><i class="f"></i><i class="f"></i><i class="f"></i><span class="cnt">3/3</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SLIDE 5: LIBRARY / PRIVACY ============ -->
+<section class="stage bg-orange" id="s5">
+  <div class="hz">
+    <div class="brand"><div class="bmark"><i></i><i></i></div><b>Cabinet</b></div>
+    <h1>Private by design.<br>Yours forever.</h1>
+    <div class="sub">Everything stays on your Mac. No cloud, no account, no subscription. Pay once, own it.</div>
+  </div>
+  <div class="win"><div class="tbar"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+    <div class="app">
+      <div data-sb="lib"></div>
+      <div class="main">
+        <div class="ltool">
+          <div class="lsearch">⌕ Search documents</div>
+          <span class="ghostbtn">↑↓ Date Added</span>
+          <span class="btn-o">+ Add Document</span>
+        </div>
+        <div class="lgrid">
+          <div class="doc"><div class="dthumb" style="background:linear-gradient(160deg,#FEE7D6,#FBD4B8);">📕</div><div class="dn">Passport</div><span class="dt">PDF</span></div>
+          <div class="doc"><div class="dthumb" style="background:linear-gradient(160deg,#E0EDFE,#C9DEF8);">📄</div><div class="dn">IELTS result</div><span class="dt">PDF</span></div>
+          <div class="doc"><div class="dthumb" style="background:linear-gradient(160deg,#E5F5E9,#D0EBD8);">📄</div><div class="dn">Bank statement Jun</div><span class="dt">PDF</span></div>
+          <div class="doc"><div class="dthumb" style="background:linear-gradient(160deg,#FDF0D5,#F8E3B8);">📜</div><div class="dn">Birth certificate</div><span class="dt">PDF</span></div>
+          <div class="doc"><div class="dthumb" style="background:linear-gradient(160deg,#EFE7FD,#DECFF8);">🎓</div><div class="dn">Diploma BSc</div><span class="dt">PDF</span></div>
+          <div class="doc"><div class="dthumb" style="background:linear-gradient(160deg,#FDE7EC,#F8CFDA);">📄</div><div class="dn">Transcript</div><span class="dt">PDF</span></div>
+          <div class="doc"><div class="dthumb" style="background:linear-gradient(160deg,#E7F6FD,#CFEAF8);">📷</div><div class="dn">Photo 35x45</div><span class="dt">JPEG</span></div>
+          <div class="doc"><div class="dthumb" style="background:linear-gradient(160deg,#F1F0EE,#E4E1DD);">📄</div><div class="dn">CV 2026</div><span class="dt">PDF</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Clone sidebar into each slot, set active nav
+  document.querySelectorAll("[data-sb]").forEach(slot => {
+    const sb = document.getElementById("sbT").content.cloneNode(true);
+    const key = slot.getAttribute("data-sb");
+    sb.querySelectorAll(".nrow,.prow").forEach(r => {
+      if (r.dataset.n === key) r.classList.add("act");
+      if (key === "uk" && r.dataset.n === "proc") {} // keep processes inactive when a process is selected
+    });
+    slot.replaceWith(sb);
+  });
+
+  // Show only the requested slide
+  const p = new URLSearchParams(location.search).get("s") || "1";
+  document.getElementById("s" + p).classList.add("on");
+  document.body.style.background = "transparent";
+</script>
+</body>
+</html>

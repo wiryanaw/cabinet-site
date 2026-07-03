@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cabinet App Store Compose</title>
+<style>
+  @font-face { font-family:"Geist"; src:url("fonts/Geist-Regular.ttf"); font-weight:400; }
+  @font-face { font-family:"Geist"; src:url("fonts/Geist-Medium.ttf"); font-weight:500; }
+  @font-face { font-family:"Geist"; src:url("fonts/Geist-SemiBold.ttf"); font-weight:600; }
+  @font-face { font-family:"Geist"; src:url("fonts/Geist-Bold.ttf"); font-weight:700; }
+  :root { --or:#EA580C; --ink:#1C1917; --sec:#78716C; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"Geist",-apple-system,sans-serif; -webkit-font-smoothing:antialiased; }
+  .stage { width:1440px; height:900px; position:relative; overflow:hidden;
+    display:none; flex-direction:column; align-items:center; }
+  .stage.on { display:flex; }
+  .bg-warm { background:
+    radial-gradient(1200px 700px at 15% -10%, rgba(251,146,60,.22), transparent 60%),
+    radial-gradient(1000px 600px at 95% 110%, rgba(234,88,12,.16), transparent 55%),
+    linear-gradient(170deg,#FDF8F3 0%,#F7F1EA 55%,#F3EBE2 100%); }
+  .bg-orange { background:
+    radial-gradient(1100px 650px at 80% -20%, rgba(255,255,255,.14), transparent 60%),
+    linear-gradient(160deg,#F97316 0%,#EA580C 55%,#C2410C 100%); }
+  .bg-stone { background:
+    radial-gradient(1000px 600px at 20% 120%, rgba(234,88,12,.14), transparent 55%),
+    linear-gradient(165deg,#FAFAF9 0%,#F0EEEB 100%); }
+  .hz { text-align:center; padding-top:64px; }
+  .brand { display:inline-flex; align-items:center; gap:10px; margin-bottom:20px; }
+  .bmark-tile { display:inline-flex; width:34px; height:34px; }
+  .bmark-tile img { width:100%; height:100%; }
+  .bg-orange .bmark-tile { background:#fff; border-radius:9px; padding:3px;
+    box-shadow:0 2px 8px rgba(0,0,0,.18); }
+  .bmark { display:flex; flex-direction:column; gap:3px; }
+  .bmark i { display:block; width:24px; height:10px; border-radius:4px; background:var(--or); position:relative; }
+  .bg-orange .bmark i { background:#fff; }
+  .bmark i::after { content:""; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:8px; height:2.5px; border-radius:2px; background:#fff; }
+  .bg-orange .bmark i::after { background:var(--or); }
+  .brand b { font-size:19px; color:var(--ink); }
+  .bg-orange .brand b { color:#fff; }
+  h1 { font-size:52px; font-weight:700; letter-spacing:-.025em; color:var(--ink); line-height:1.12; }
+  .bg-orange h1 { color:#fff; }
+  h1 .ac { color:var(--or); }
+  .bg-orange h1 .ac { color:#FFD7BC; }
+  .sub { margin-top:13px; font-size:19px; color:var(--sec); }
+  .bg-orange .sub { color:rgba(255,255,255,.85); }
+  .win { margin-top:40px; width:1120px; border-radius:14px 14px 0 0; overflow:hidden; flex-shrink:0;
+    box-shadow:0 0 0 1px rgba(0,0,0,.10), 0 30px 80px rgba(28,25,23,.35); font-size:0; }
+  .win img { width:100%; display:block; }
+</style>
+</head>
+<body>
+<section class="stage bg-warm" id="s1">
+  <div class="hz">
+    <div class="brand"><span class="bmark-tile"><img src="cabinet-icon-mark.svg" alt=""></span><b>Cabinet</b></div>
+    <h1>Every important document.<br><span class="ac">Filed, tracked, ready.</span></h1>
+    <div class="sub">The macOS home for visas, applications, and life admin.</div>
+  </div>
+  <div class="win"><img src="shots/dashboard.png"></div>
+</section>
+<section class="stage bg-orange" id="s2">
+  <div class="hz">
+    <div class="brand"><span class="bmark-tile"><img src="cabinet-icon-mark.svg" alt=""></span><b>Cabinet</b></div>
+    <h1>Know exactly<br>what is still missing.</h1>
+    <div class="sub">Turn any goal into a document checklist. Watch it fill as you collect.</div>
+  </div>
+  <div class="win"><img src="shots/process.png"></div>
+</section>
+<section class="stage bg-stone" id="s3">
+  <div class="hz">
+    <div class="brand"><span class="bmark-tile"><img src="cabinet-icon-mark.svg" alt=""></span><b>Cabinet</b></div>
+    <h1>One passport. Three applications.<br><span class="ac">Zero copies.</span></h1>
+    <div class="sub">Link one document to every process that needs it. Cabinet warns you before deleting anything still in use.</div>
+  </div>
+  <div class="win"><img src="shots/link-modal.png"></div>
+</section>
+<section class="stage bg-warm" id="s4">
+  <div class="hz">
+    <div class="brand"><span class="bmark-tile"><img src="cabinet-icon-mark.svg" alt=""></span><b>Cabinet</b></div>
+    <h1>Expiry dates never<br><span class="ac">sneak up on you again.</span></h1>
+    <div class="sub">Smart reminders for passports, certificates, and anything that runs out.</div>
+  </div>
+  <div class="win"><img src="shots/dashboard.png"></div>
+</section>
+<section class="stage bg-orange" id="s5">
+  <div class="hz">
+    <div class="brand"><span class="bmark-tile"><img src="cabinet-icon-mark.svg" alt=""></span><b>Cabinet</b></div>
+    <h1>Private by design.<br>Yours forever.</h1>
+    <div class="sub">Everything stays on your Mac. No cloud, no account, no subscription. Pay once, own it.</div>
+  </div>
+  <div class="win"><img src="shots/library-grid.png"></div>
+</section>
+<script>
+  const p = new URLSearchParams(location.search).get("s") || "1";
+  document.getElementById("s" + p).classList.add("on");
+</script>
+</body>
+</html>

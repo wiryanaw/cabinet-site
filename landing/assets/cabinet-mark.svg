@@ -1,0 +1,16 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g id="cabinet-mark">
+    <g id="drawer-1">
+      <rect id="drawer-1-shadow" x="144.52" y="124.69" width="265.42" height="95.85" rx="51.61" fill="#EA580C" fill-opacity="0.15"/>
+      <rect id="drawer-1-back" x="133.91" y="130.44" width="265.42" height="95.85" rx="51.61" fill="#FB923C"/>
+      <rect id="drawer-1-front" x="123.29" y="136.19" width="265.42" height="95.85" rx="51.61" fill="#EA580C"/>
+      <rect id="drawer-1-handle" x="218.84" y="184.12" width="74.32" height="16.29" rx="8.15" fill="#FFFFFF" fill-opacity="0.92"/>
+    </g>
+    <g id="drawer-2">
+      <rect id="drawer-2-shadow" x="144.52" y="279.52" width="265.42" height="95.85" rx="51.61" fill="#EA580C" fill-opacity="0.15"/>
+      <rect id="drawer-2-back" x="133.91" y="285.27" width="265.42" height="95.85" rx="51.61" fill="#FB923C"/>
+      <rect id="drawer-2-front" x="123.29" y="291.02" width="265.42" height="95.85" rx="51.61" fill="#EA580C"/>
+      <rect id="drawer-2-handle" x="218.84" y="338.94" width="74.32" height="16.29" rx="8.15" fill="#FFFFFF" fill-opacity="0.92"/>
+    </g>
+  </g>
+</svg>
