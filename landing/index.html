@@ -369,6 +369,31 @@
   .foot-links a:hover { color:var(--or); }
   .made { width:100%; margin-top:18px; font-size:12.5px; color:var(--ter); }
 
+  /* ================= Mobile ================= */
+  @media (max-width:820px) {
+    .hero { padding-top:112px; }
+    h1 { font-size:clamp(31px, 9vw, 42px); }
+    .hero-sub { font-size:16px; }
+    h2 { font-size:clamp(27px, 7.4vw, 36px); }
+    .nav-cta .btn { padding:8px 13px; font-size:12.5px; }
+    .hero-ctas { flex-direction:column; gap:12px; }
+    .hero-ctas .btn { width:min(340px, 86vw); justify-content:center; }
+    /* hero stage: give the window the whole width, drop the floaters */
+    .h-paper, .chip-f { display:none; }
+    .stage3d { margin-top:44px; }
+    .drawer-stage { width:94vw; }
+    .drawer-front { height:64px; border-radius:14px 14px 0 0; left:-2.5%; right:-2.5%; }
+    .drawer-front::before { width:64px; height:9px; top:15px; }
+    .loaded .hero-window { animation-delay:.35s; }
+    /* story + sections tighten */
+    .story { padding:110px 0 90px; }
+    .sec-pad { padding:80px 0; }
+    /* footer stacks, left aligned */
+    .foot { flex-direction:column; align-items:flex-start; gap:16px; }
+    .foot-links { margin-left:0; flex-wrap:wrap; gap:16px; }
+    .made { margin-top:6px; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration:.01ms !important; transition-duration:.01ms !important; }
     html { scroll-behavior:auto; }
