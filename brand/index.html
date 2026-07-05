@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cabinet · Brand Guidelines</title>
+<style>
+  @font-face { font-family:"Geist"; src:url("../fonts/Geist-Regular.ttf"); font-weight:400; }
+  @font-face { font-family:"Geist"; src:url("../fonts/Geist-Medium.ttf"); font-weight:500; }
+  @font-face { font-family:"Geist"; src:url("../fonts/Geist-SemiBold.ttf"); font-weight:600; }
+  @font-face { font-family:"Geist"; src:url("../fonts/Geist-Bold.ttf"); font-weight:700; }
+
+  :root {
+    --or:#EA580C; --or-back:#FB923C; --or-deep:#C2410C; --or-top:#F47535; --or-bot:#D44D08;
+    --ink:#1C1917; --sec:#78716C; --ter:#A8A29E;
+    --paper:#FBF7F2; --card:#FFFFFF; --line:#EDE7DF;
+    --green:#16A34A; --red:#DC2626;
+    --ease:cubic-bezier(.32,.72,.28,1);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { -webkit-print-color-adjust:exact; print-color-adjust:exact; scroll-behavior:smooth; }
+  body { font-family:"Geist",-apple-system,sans-serif; color:var(--ink); background:#EAE4DC;
+    -webkit-font-smoothing:antialiased; padding:36px 0; }
+  ::selection { background:rgba(234,88,12,.18); }
+
+  /* Each "sheet" mimics a printed page and can export cleanly to PDF */
+  .sheet { width:210mm; min-height:297mm; margin:0 auto 30px; background:var(--paper); position:relative;
+    padding:24mm 22mm; box-shadow:0 20px 60px rgba(28,25,23,.16); page-break-after:always; overflow:hidden; }
+  .sheet:last-child { page-break-after:auto; margin-bottom:0; }
+  @page { size:A4; margin:0; }
+  @media print { body { padding:0; background:#fff; } .sheet { box-shadow:none; margin:0; } }
+
+  /* Marks */
+  .mark { display:inline-flex; flex-direction:column; gap:4px; vertical-align:middle; }
+  .mark i { display:block; width:30px; height:12px; border-radius:5px; background:var(--or); position:relative; }
+  .mark i::after { content:""; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:10px; height:3px; border-radius:2px; background:#fff; }
+  .brand-row { display:flex; align-items:center; gap:12px; }
+  .brand-row b { font-size:18pt; font-weight:600; }
+
+  .kicker { font-size:9pt; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--or); margin-bottom:8px; }
+  h1 { font-size:40pt; font-weight:700; letter-spacing:-.03em; line-height:1.05; }
+  h1 .ac { color:var(--or); }
+  h2 { font-size:24pt; font-weight:700; letter-spacing:-.02em; }
+  h3 { font-size:13pt; font-weight:650; }
+  .lead { font-size:13pt; line-height:1.6; color:var(--sec); }
+  .divider { height:1px; background:var(--line); margin:16px 0 26px; }
+  .sec-num { position:absolute; top:24mm; right:22mm; font-size:10pt; font-weight:600; color:var(--ter); }
+  .foot { position:absolute; bottom:16mm; left:22mm; right:22mm; display:flex; justify-content:space-between;
+    font-size:8.5pt; color:var(--ter); border-top:1px solid var(--line); padding-top:9px; }
+
+  /* ---- Cover ---- */
+  .cover { display:flex; flex-direction:column;
+    background:
+      radial-gradient(700px 380px at 15% 0%, rgba(251,146,60,.24), transparent 60%),
+      radial-gradient(600px 340px at 100% 15%, rgba(234,88,12,.14), transparent 55%),
+      linear-gradient(165deg,#FDF9F4, #F3EBE1); }
+  .cover .mid { margin:auto 0; }
+  .cover-badge { display:inline-block; font-size:9pt; font-weight:700; letter-spacing:.14em; color:var(--or);
+    background:rgba(234,88,12,.1); border:1px solid rgba(234,88,12,.25); border-radius:99px; padding:7px 15px; margin-bottom:24px; }
+  .cover h1 { font-size:46pt; }
+  .cover .sub { margin-top:16px; font-size:14pt; color:var(--sec); max-width:135mm; line-height:1.55; }
+  .cover .meta { font-size:9.5pt; color:var(--ter); }
+
+  /* ---- Table of contents ---- */
+  .toc { display:flex; flex-direction:column; gap:2px; margin-top:8px; }
+  .toc a { display:flex; align-items:baseline; gap:14px; text-decoration:none; color:var(--ink);
+    padding:13px 0; border-bottom:1px solid var(--line); font-size:13pt; font-weight:500; transition:color .2s; }
+  .toc a:hover { color:var(--or); }
+  .toc a .n { font-size:10pt; font-weight:700; color:var(--or); width:26px; }
+  .toc a .dots { flex:1; border-bottom:1.5px dotted var(--line); transform:translateY(-3px); }
+
+  /* ---- Logo section ---- */
+  .logo-hero { background:var(--card); border:1px solid var(--line); border-radius:20px;
+    padding:38px; display:flex; align-items:center; justify-content:center; gap:54px; margin-bottom:14px; }
+  .app-icon { width:104px; height:104px; }
+  .logo-lockup { display:flex; align-items:center; gap:16px; }
+  .logo-lockup .mark i { width:40px; height:16px; border-radius:6px; }
+  .logo-lockup .mark i::after { width:13px; height:4px; }
+  .logo-lockup b { font-size:30pt; font-weight:600; letter-spacing:-.01em; }
+
+  .two { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .box { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:22px; }
+  .box .cap { font-size:9pt; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--ter); margin-bottom:12px; }
+  .box p { font-size:10.5pt; line-height:1.6; color:var(--sec); }
+  .swatch-mini { display:flex; gap:8px; margin-top:6px; }
+
+  .dodont { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:12px; }
+  .dd { border-radius:14px; padding:18px 20px; font-size:10.5pt; line-height:1.55; }
+  .dd.do { background:rgba(22,163,74,.06); border:1px solid rgba(22,163,74,.25); }
+  .dd.dont { background:rgba(220,38,38,.05); border:1px solid rgba(220,38,38,.22); }
+  .dd h3 { display:flex; align-items:center; gap:8px; margin-bottom:9px; font-size:11pt; }
+  .dd.do h3 { color:var(--green); } .dd.dont h3 { color:var(--red); }
+  .dd ul { list-style:none; color:var(--sec); }
+  .dd li { padding:3px 0 3px 16px; position:relative; }
+  .dd li::before { content:""; position:absolute; left:0; top:9px; width:6px; height:6px; border-radius:50%; }
+  .dd.do li::before { background:var(--green); } .dd.dont li::before { background:var(--red); }
+
+  /* clear space diagram */
+  .clearspace { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:24px; display:flex; justify-content:center; }
+  .cs-frame { position:relative; padding:36px 56px; border:1.5px dashed rgba(234,88,12,.4); border-radius:12px; }
+  .cs-frame .mark i { width:44px; height:18px; }
+  .cs-frame .lbl { position:absolute; font-size:8.5pt; color:var(--or); font-weight:600; }
+  .cs-frame .lbl.t { top:15px; left:50%; transform:translateX(-50%); }
+  .cs-frame .lbl.l { left:2px; top:50%; transform:translateY(-50%) rotate(-90deg); white-space:nowrap; }
+
+  /* ---- Color ---- */
+  .pal { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+  .chip { border-radius:15px; overflow:hidden; border:1px solid var(--line); background:var(--card); }
+  .chip .fill { height:96px; display:flex; align-items:flex-end; padding:12px; }
+  .chip .fill .tag { font-size:8.5pt; font-weight:700; letter-spacing:.06em; color:#fff; opacity:.9; }
+  .chip .fill.dark .tag { color:#fff; } .chip .fill.light .tag { color:var(--ink); }
+  .chip .info { padding:12px 14px; }
+  .chip .info .nm { font-size:10.5pt; font-weight:600; }
+  .chip .info .hex { font-size:9.5pt; color:var(--sec); font-family:ui-monospace,SFMono-Regular,Menlo,monospace; margin-top:2px; }
+  .chip .info .use { font-size:8.5pt; color:var(--ter); margin-top:5px; line-height:1.4; }
+  .grad-strip { height:70px; border-radius:14px; margin-top:16px;
+    background:linear-gradient(90deg,#F47535,#EA580C 50%,#C2410C); display:flex; align-items:center; padding:0 20px; }
+  .grad-strip span { color:#fff; font-size:10pt; font-weight:600; }
+
+  /* ---- Typography ---- */
+  .type-row { display:flex; align-items:baseline; gap:20px; padding:16px 0; border-bottom:1px solid var(--line); }
+  .type-row .spec { width:150px; flex-shrink:0; font-size:9.5pt; color:var(--sec); }
+  .type-row .spec b { display:block; color:var(--ink); font-size:10.5pt; }
+  .type-sample { line-height:1.1; }
+  .weights { display:flex; gap:12px; margin-top:18px; flex-wrap:wrap; }
+  .wt { flex:1; min-width:110px; background:var(--card); border:1px solid var(--line); border-radius:13px; padding:16px; text-align:center; }
+  .wt .big { font-size:30pt; margin-bottom:6px; }
+  .wt .lbl { font-size:9pt; color:var(--sec); }
+
+  /* ---- Motif / drawer ---- */
+  .motif { display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:center; }
+  .drawer-demo { background:var(--card); border:1px solid var(--line); border-radius:18px; padding:40px; display:flex; justify-content:center; }
+  .dd-wrap { position:relative; width:200px; height:150px; }
+  .dd-cav { position:absolute; left:20px; right:20px; top:0; height:64px; border-radius:11px 11px 0 0;
+    border:1px solid rgba(234,88,12,.16); border-bottom:none; background:linear-gradient(180deg, rgba(234,88,12,.05), rgba(234,88,12,.15)); }
+  .dd-sheet { position:absolute; width:42px; height:56px; background:#fff; border:1px solid rgba(0,0,0,.08);
+    border-radius:7px; box-shadow:0 3px 9px rgba(0,0,0,.07); padding:7px 6px; }
+  .dd-sheet i { display:block; height:3px; border-radius:2px; background:rgba(28,25,23,.12); margin-bottom:5px; }
+  .dd-sheet i:first-child { width:65%; background:rgba(28,25,23,.2); }
+  .dd-sheet.s1 { left:44px; top:22px; transform:rotate(-8deg); }
+  .dd-sheet.s2 { left:79px; top:16px; z-index:1; }
+  .dd-sheet.s3 { left:114px; top:22px; transform:rotate(8deg); }
+  .dd-front { position:absolute; z-index:2; left:0; right:0; bottom:0; height:76px; border-radius:15px;
+    background:linear-gradient(180deg,#FCEDE2,#FDF8F3); border:1px solid rgba(234,88,12,.18); box-shadow:0 10px 26px rgba(28,25,23,.08); }
+  .dd-front::before { content:""; position:absolute; left:50%; top:14px; transform:translateX(-50%);
+    width:40px; height:6px; border-radius:4px; background:rgba(234,88,12,.7); }
+
+  /* buttons showcase */
+  .btns { display:flex; gap:12px; flex-wrap:wrap; margin-top:10px; }
+  .btn { display:inline-flex; align-items:center; gap:7px; font-weight:600; font-size:11pt; border-radius:11px; padding:11px 20px; }
+  .btn-p { color:#fff; background:linear-gradient(180deg,#F47535,#D44D08); box-shadow:0 6px 18px rgba(234,88,12,.3); }
+  .btn-s { color:var(--or); background:rgba(234,88,12,.06); border:1.5px solid rgba(234,88,12,.5); }
+  .btn-d { color:#fff; background:linear-gradient(180deg,#F05252,#DC2626); }
+
+  /* voice */
+  .voice-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .say { border-radius:14px; padding:18px 20px; }
+  .say.yes { background:rgba(22,163,74,.06); border:1px solid rgba(22,163,74,.22); }
+  .say.no { background:rgba(220,38,38,.05); border:1px solid rgba(220,38,38,.2); }
+  .say .h { font-size:9pt; font-weight:700; letter-spacing:.08em; text-transform:uppercase; margin-bottom:12px; }
+  .say.yes .h { color:var(--green); } .say.no .h { color:var(--red); }
+  .say p { font-size:11pt; line-height:1.5; color:var(--ink); padding:7px 0; border-bottom:1px dashed var(--line); }
+  .say p:last-child { border-bottom:none; }
+  .principles { display:flex; flex-direction:column; gap:11px; margin-top:4px; }
+  .principle { display:flex; gap:14px; background:var(--card); border:1px solid var(--line); border-radius:13px; padding:16px 18px; }
+  .principle .pn { font-size:15pt; }
+  .principle b { font-size:11.5pt; } .principle p { font-size:10pt; color:var(--sec); line-height:1.5; margin-top:2px; }
+</style>
+</head>
+<body>
+
+<!-- ============ 1 · COVER ============ -->
+<section class="sheet cover">
+  <div class="brand-row"><span class="mark"><i></i><i></i></span><b>Cabinet</b></div>
+  <div class="mid">
+    <span class="cover-badge">BRAND GUIDELINES</span>
+    <h1>The look, voice, and<br>feel of <span class="ac">Cabinet.</span></h1>
+    <p class="sub">Everything you need to keep Cabinet consistent, wherever it shows up. Logo, color, type, the drawer motif, and how we speak. Keep this close.</p>
+  </div>
+  <div class="meta">Version 1.0 · July 2026 · A macOS app for the paperwork that runs your life</div>
+</section>
+
+<!-- ============ 2 · CONTENTS + ESSENCE ============ -->
+<section class="sheet">
+  <span class="sec-num">01</span>
+  <div class="kicker">Start here</div>
+  <h2>What Cabinet is</h2>
+  <div class="divider"></div>
+  <p class="lead" style="margin-bottom:26px;">Cabinet is the calm, private home for the paperwork that runs your life. It turns bureaucratic goals like visas, university applications, and tax season into simple document checklists, and keeps every original in one place on your Mac. The brand should always feel the way the app feels: <b style="color:var(--ink)">organized, reassuring, and quietly capable.</b></p>
+
+  <div class="two" style="margin-bottom:26px;">
+    <div class="box">
+      <div class="cap">Tagline</div>
+      <p style="font-size:14pt; color:var(--ink); font-weight:600; line-height:1.35;">Filed, tracked, ready.</p>
+    </div>
+    <div class="box">
+      <div class="cap">In one line</div>
+      <p style="font-size:12pt; color:var(--ink); line-height:1.45;">The macOS home for visas, applications, and life admin.</p>
+    </div>
+  </div>
+
+  <div class="kicker">Contents</div>
+  <div class="toc">
+    <a href="#logo"><span class="n">02</span> Logo &amp; mark <span class="dots"></span></a>
+    <a href="#color"><span class="n">03</span> Color <span class="dots"></span></a>
+    <a href="#type"><span class="n">04</span> Typography <span class="dots"></span></a>
+    <a href="#motif"><span class="n">05</span> The drawer motif &amp; UI <span class="dots"></span></a>
+    <a href="#voice"><span class="n">06</span> Voice &amp; tone <span class="dots"></span></a>
+  </div>
+
+  <div class="foot"><span>Cabinet Brand Guidelines</span><span>Page 2</span></div>
+</section>
+
+<!-- ============ 3 · LOGO ============ -->
+<section class="sheet" id="logo">
+  <span class="sec-num">02</span>
+  <div class="kicker">Identity</div>
+  <h2>Logo &amp; mark</h2>
+  <div class="divider"></div>
+
+  <div class="logo-hero">
+    <!-- App icon: white rounded container + layered drawers -->
+    <svg class="app-icon" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+      <rect width="512" height="512" rx="114.5" fill="#FFFFFF"/>
+      <g>
+        <rect x="145.6" y="121.9" width="221.1" height="79.9" rx="25.8" fill="#EA580C" fill-opacity="0.15"/>
+        <rect x="138.2" y="126.7" width="221.1" height="79.9" rx="25.8" fill="#FB923C"/>
+        <rect x="130.8" y="131.5" width="221.1" height="79.9" rx="25.8" fill="#EA580C"/>
+        <rect x="210.1" y="171.4" width="61.9" height="10.6" rx="5.3" fill="#FFFFFF" fill-opacity="0.92"/>
+      </g>
+      <g>
+        <rect x="145.6" y="276.3" width="221.1" height="79.9" rx="25.8" fill="#EA580C" fill-opacity="0.15"/>
+        <rect x="138.2" y="281.1" width="221.1" height="79.9" rx="25.8" fill="#FB923C"/>
+        <rect x="130.8" y="285.9" width="221.1" height="79.9" rx="25.8" fill="#EA580C"/>
+        <rect x="210.1" y="325.8" width="61.9" height="10.6" rx="5.3" fill="#FFFFFF" fill-opacity="0.92"/>
+      </g>
+    </svg>
+    <div class="logo-lockup"><span class="mark"><i></i><i></i></span><b>Cabinet</b></div>
+  </div>
+
+  <div class="two">
+    <div class="box">
+      <div class="cap">The mark</div>
+      <p>Two offset drawers, each with a small white handle. It reads as a filing cabinet and echoes the app itself, where every process is a drawer. The mark works alone or locked up with the wordmark.</p>
+    </div>
+    <div class="box">
+      <div class="cap">Construction</div>
+      <p>Each drawer is built from three stacked layers: a soft shadow at 15% orange, a lighter back drawer in <b style="color:var(--ink)">#FB923C</b>, and the front in <b style="color:var(--ink)">#EA580C</b>, with a 92% white handle. Never flatten it to a single orange.</p>
+      <p style="margin-top:10px;"><b style="color:var(--ink)">Clear space:</b> always leave at least one drawer-handle height of empty space around the mark on every side.</p>
+    </div>
+  </div>
+
+  <div style="height:16px"></div>
+  <div class="dodont">
+    <div class="dd do">
+      <h3>✓ Do</h3>
+      <ul>
+        <li>Keep the three-layer depth and the white handles</li>
+        <li>Give it clear space on all sides</li>
+        <li>Use the white app-icon container on colored backgrounds</li>
+        <li>Scale the mark and wordmark together</li>
+      </ul>
+    </div>
+    <div class="dd dont">
+      <h3>✕ Don't</h3>
+      <ul>
+        <li>Flatten it to one flat orange or a single drawer</li>
+        <li>Recolor the drawers or drop the handles</li>
+        <li>Rotate, skew, or add effects</li>
+        <li>Crowd it against text or edges</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="foot"><span>Cabinet Brand Guidelines</span><span>Page 3</span></div>
+</section>
+
+<!-- ============ 4 · COLOR ============ -->
+<section class="sheet" id="color">
+  <span class="sec-num">03</span>
+  <div class="kicker">Palette</div>
+  <h2>Color</h2>
+  <div class="divider"></div>
+  <p class="lead" style="margin-bottom:22px;">Orange is Cabinet. It carries every primary action, accent, and highlight. Everything else is a warm, paper-like neutral so the orange always leads. Use color sparingly, the way the app does.</p>
+
+  <div class="pal">
+    <div class="chip"><div class="fill dark" style="background:#EA580C;"><span class="tag">PRIMARY</span></div><div class="info"><div class="nm">Cabinet Orange</div><div class="hex">#EA580C</div><div class="use">Primary actions, accents, active states, the front drawer.</div></div></div>
+    <div class="chip"><div class="fill dark" style="background:#FB923C;"><span class="tag">SUPPORT</span></div><div class="info"><div class="nm">Soft Orange</div><div class="hex">#FB923C</div><div class="use">The lighter back drawer layer. Depth, never a primary fill.</div></div></div>
+    <div class="chip"><div class="fill dark" style="background:#C2410C;"><span class="tag">DEEP</span></div><div class="info"><div class="nm">Deep Orange</div><div class="hex">#C2410C</div><div class="use">Bottom of button gradients, pressed states.</div></div></div>
+
+    <div class="chip"><div class="fill dark" style="background:#1C1917;"><span class="tag">TEXT</span></div><div class="info"><div class="nm">Ink</div><div class="hex">#1C1917</div><div class="use">Headlines and primary text. Warm near-black, never pure #000.</div></div></div>
+    <div class="chip"><div class="fill dark" style="background:#78716C;"><span class="tag">TEXT</span></div><div class="info"><div class="nm">Secondary</div><div class="hex">#78716C</div><div class="use">Body copy, descriptions, supporting text.</div></div></div>
+    <div class="chip"><div class="fill light" style="background:#FBF7F2;"><span class="tag">SURFACE</span></div><div class="info"><div class="nm">Paper</div><div class="hex">#FBF7F2</div><div class="use">The default warm background. Calm, off-white, not stark.</div></div></div>
+
+    <div class="chip"><div class="fill light" style="background:#FFFFFF; box-shadow:inset 0 0 0 1px var(--line);"><span class="tag">SURFACE</span></div><div class="info"><div class="nm">Card</div><div class="hex">#FFFFFF</div><div class="use">Cards and raised surfaces on the paper background.</div></div></div>
+    <div class="chip"><div class="fill dark" style="background:#16A34A;"><span class="tag">STATE</span></div><div class="info"><div class="nm">Success</div><div class="hex">#16A34A</div><div class="use">Complete, done, all documents collected.</div></div></div>
+    <div class="chip"><div class="fill dark" style="background:#DC2626;"><span class="tag">STATE</span></div><div class="info"><div class="nm">Destructive</div><div class="hex">#DC2626</div><div class="use">Delete and remove actions only. Use with restraint.</div></div></div>
+  </div>
+
+  <div class="grad-strip"><span>Primary button gradient &nbsp; · &nbsp; #F47535 → #EA580C → #C2410C</span></div>
+
+  <div class="foot"><span>Cabinet Brand Guidelines</span><span>Page 4</span></div>
+</section>
+
+<!-- ============ 5 · TYPOGRAPHY ============ -->
+<section class="sheet" id="type">
+  <span class="sec-num">04</span>
+  <div class="kicker">Type</div>
+  <h2>Typography</h2>
+  <div class="divider"></div>
+  <p class="lead" style="margin-bottom:8px;">Cabinet uses <b style="color:var(--ink)">Geist</b> everywhere, the open-source typeface by Vercel. It is clean, modern, and neutral, so the content and the orange do the talking. One typeface, four weights, no exceptions.</p>
+
+  <div class="type-row"><div class="spec"><b>Display / H1</b>Bold · tight tracking</div><div class="type-sample" style="font-size:34pt; font-weight:700; letter-spacing:-.03em;">Filed, tracked, ready.</div></div>
+  <div class="type-row"><div class="spec"><b>Heading / H2</b>Bold</div><div class="type-sample" style="font-size:22pt; font-weight:700; letter-spacing:-.02em;">Know what is missing</div></div>
+  <div class="type-row"><div class="spec"><b>Subhead / H3</b>SemiBold</div><div class="type-sample" style="font-size:15pt; font-weight:600;">One file, every process</div></div>
+  <div class="type-row"><div class="spec"><b>Body</b>Regular · 1.6 line height</div><div class="type-sample" style="font-size:12pt; font-weight:400; color:var(--sec); line-height:1.5; max-width:250px;">Everything lives on your Mac. No server, no account, nothing to breach.</div></div>
+  <div class="type-row" style="border-bottom:none;"><div class="spec"><b>Label / Kicker</b>SemiBold · uppercase · wide tracking</div><div class="type-sample" style="font-size:10pt; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--or);">Why Cabinet</div></div>
+
+  <div class="weights">
+    <div class="wt"><div class="big" style="font-weight:400;">Aa</div><div class="lbl">Regular · 400</div></div>
+    <div class="wt"><div class="big" style="font-weight:500;">Aa</div><div class="lbl">Medium · 500</div></div>
+    <div class="wt"><div class="big" style="font-weight:600;">Aa</div><div class="lbl">SemiBold · 600</div></div>
+    <div class="wt"><div class="big" style="font-weight:700;">Aa</div><div class="lbl">Bold · 700</div></div>
+  </div>
+
+  <div class="foot"><span>Cabinet Brand Guidelines</span><span>Page 5</span></div>
+</section>
+
+<!-- ============ 6 · MOTIF + UI ============ -->
+<section class="sheet" id="motif">
+  <span class="sec-num">05</span>
+  <div class="kicker">Signature</div>
+  <h2>The drawer motif &amp; UI</h2>
+  <div class="divider"></div>
+
+  <div class="motif" style="margin-bottom:24px;">
+    <div class="drawer-demo">
+      <div class="dd-wrap">
+        <div class="dd-cav"></div>
+        <div class="dd-sheet s1"><i></i><i></i><i></i></div>
+        <div class="dd-sheet s2"><i></i><i></i><i></i></div>
+        <div class="dd-sheet s3"><i></i><i></i><i></i></div>
+        <div class="dd-front"></div>
+      </div>
+    </div>
+    <div>
+      <h3 style="margin-bottom:8px;">Everything is a drawer</h3>
+      <p style="font-size:11pt; color:var(--sec); line-height:1.6;">The drawer is Cabinet's signature object. Processes are drawers with a front panel and a handle. Papers peek out while documents are still being collected, and tuck away when everything is filed. Use it as illustration, empty states, and hero moments. It is the one shape that is unmistakably Cabinet.</p>
+    </div>
+  </div>
+
+  <div class="two" style="margin-bottom:20px;">
+    <div class="box">
+      <div class="cap">Shape language</div>
+      <p>Generous, soft corners everywhere: 9 to 16px on cards and buttons, fully rounded on drawers. Nothing sharp. The feel is calm and tactile, like well-made stationery.</p>
+    </div>
+    <div class="box">
+      <div class="cap">Motion</div>
+      <p>Subtle and physical. Papers rise when you hover a drawer, pills slide between tabs, cards lift gently. One easing curve throughout. Nothing bounces or flashes. Think Apple, not carnival.</p>
+    </div>
+  </div>
+
+  <div class="box">
+    <div class="cap">Buttons</div>
+    <div class="btns">
+      <span class="btn btn-p">Primary action</span>
+      <span class="btn btn-s">Secondary</span>
+      <span class="btn btn-d">Destructive</span>
+    </div>
+    <p style="margin-top:14px; font-size:10pt; color:var(--sec); line-height:1.5;">Primary is the orange gradient with a soft glow and a shimmer sweep. Secondary is an orange outline. Destructive is the only place red appears. One primary action per view.</p>
+  </div>
+
+  <div class="foot"><span>Cabinet Brand Guidelines</span><span>Page 6</span></div>
+</section>
+
+<!-- ============ 7 · VOICE ============ -->
+<section class="sheet" id="voice">
+  <span class="sec-num">06</span>
+  <div class="kicker">Words</div>
+  <h2>Voice &amp; tone</h2>
+  <div class="divider"></div>
+  <p class="lead" style="margin-bottom:22px;">Cabinet talks like a calm, capable friend who is good with paperwork. Warm but not chatty, clear but not cold, confident but never corporate. We reduce anxiety, we never add to it.</p>
+
+  <div class="principles" style="margin-bottom:24px;">
+    <div class="principle"><span class="pn">🎯</span><div><b>Concrete over abstract</b><p>Name the real thing: "passport", "bank statement", "expires in 24 days". Not "assets" or "items".</p></div></div>
+    <div class="principle"><span class="pn">🌿</span><div><b>Calm and reassuring</b><p>The user is often stressed about a deadline. Speak plainly and take the pressure off.</p></div></div>
+    <div class="principle"><span class="pn">✂️</span><div><b>Short and human</b><p>Say it in the fewest warm words. Cut filler. A sentence a friend would actually say.</p></div></div>
+  </div>
+
+  <div class="voice-grid" style="margin-bottom:22px;">
+    <div class="say yes">
+      <div class="h">✓ Sounds like Cabinet</div>
+      <p>"Know exactly what is still missing."</p>
+      <p>"Your documents never leave your Mac."</p>
+      <p>"Expiry dates never sneak up on you again."</p>
+    </div>
+    <div class="say no">
+      <div class="h">✕ Not Cabinet</div>
+      <p>"Leverage our document management solution."</p>
+      <p>"Securely sync your assets to the cloud."</p>
+      <p>"Optimize your compliance workflow today!"</p>
+    </div>
+  </div>
+
+  <div class="box" style="background:#F8ECE3; border:1px solid rgba(234,88,12,.22);">
+    <div class="cap" style="color:var(--or);">The one hard rule</div>
+    <p style="font-size:11.5pt; color:var(--ink); line-height:1.5;"><b>Never use dash characters in UI copy or labels.</b> No hyphens as connectors, no em-dashes. Rephrase with commas, periods, or shorter sentences. This keeps the interface clean and is a firm Cabinet convention.</p>
+  </div>
+
+  <div class="foot"><span>Cabinet Brand Guidelines</span><span>Page 7</span></div>
+</section>
+
+</body>
+</html>
